@@ -27,5 +27,4 @@ public class Wishlist {
 
     @Column(name = "quantity")
     private Double quantity;
-
 }
