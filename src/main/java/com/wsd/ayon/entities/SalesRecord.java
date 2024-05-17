@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -28,7 +28,7 @@ public class SalesRecord {
     private Customer customer;
 
     @Column(name = "sales_date", nullable = false)
-    private Instant salesDate;
+    private LocalDate salesDate;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

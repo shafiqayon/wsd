@@ -1,4 +1,4 @@
-package com.wsd.ayon.services;
+package com.wsd.ayon.services.wishlist;
 
 import com.wsd.ayon.dtos.WishListDto;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,7 +1,7 @@
 package com.wsd.ayon.controllers;
 
 import com.wsd.ayon.dtos.WishListDto;
-import com.wsd.ayon.services.WishListService;
+import com.wsd.ayon.services.wishlist.WishListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
