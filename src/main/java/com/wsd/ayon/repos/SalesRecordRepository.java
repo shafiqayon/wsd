@@ -11,4 +11,8 @@ public interface SalesRecordRepository extends JpaRepository<SalesRecord, Intege
     @Query("SELECT SUM(salesRecord.quantity * product.price) FROM SalesRecord salesRecord JOIN salesRecord.product product WHERE salesRecord.salesDate = :salesDate")
     Double findTotalSalesAmountBySalesDate(@Param("salesDate") LocalDate salesDate);
 
+    @Query("SELECT salesRecord.salesDate FROM SalesRecord salesRecord WHERE salesRecord.salesDate BETWEEN :startDate AND :endDate GROUP BY salesRecord.salesDate ORDER BY SUM(salesRecord.quantity) DESC limit 1")
+    LocalDate findMaxSaleDay(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+
 }

@@ -21,7 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(SalesController.class)
 public class SalesRecordControllerTest {
 
-    private final String BASE_URL = "/api/sales-record/by-date";
+    private final String SALES_RECORD_BY_DATE_API_URL = "/api/sales-record/by-date/";
+    private final String MAX_SALES_RECORD_BY_DATE_API_URL = "/api/sales-record/max-sales-day/";
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -39,14 +40,14 @@ public class SalesRecordControllerTest {
 
         when(salesService.totalSaleAmountByDate(any(LocalDate.class))).thenReturn(expectedTotal);
 
-        mockMvc.perform(get(BASE_URL + "/" + date.toString()))
+        mockMvc.perform(get(SALES_RECORD_BY_DATE_API_URL + date.toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedTotal.toString()));
     }
 
     @Test
     public void getTotalSalesAmount_InvalidDateFormat() throws Exception {
-        mockMvc.perform(get(BASE_URL + "/" + "garbage-date"))
+        mockMvc.perform(get(SALES_RECORD_BY_DATE_API_URL + "garbage-date"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -57,8 +58,22 @@ public class SalesRecordControllerTest {
 
         when(salesService.totalSaleAmountByDate(any(LocalDate.class))).thenReturn(expectedTotal);
 
-        mockMvc.perform(get(BASE_URL + "/" + date.toString()))
+        mockMvc.perform(get(SALES_RECORD_BY_DATE_API_URL + date.toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedTotal.toString()));
+    }
+
+    @Test
+    public void getMaxSaleDay_Success() throws Exception {
+        LocalDate startDate = LocalDate.of(2024, 5, 1);
+        LocalDate endDate = LocalDate.of(2024, 5, 31);
+        LocalDate maxSaleDay = LocalDate.of(2024, 5, 5);
+        String maxSaleDayString = "\"2024-05-05\"";
+
+        when(salesService.findMaxSaleDay(startDate, endDate)).thenReturn(maxSaleDay);
+
+        mockMvc.perform(get(MAX_SALES_RECORD_BY_DATE_API_URL + startDate.toString() + "/" + endDate.toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(maxSaleDayString));
     }
 }

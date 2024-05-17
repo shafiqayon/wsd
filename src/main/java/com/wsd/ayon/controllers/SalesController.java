@@ -3,6 +3,7 @@ package com.wsd.ayon.controllers;
 import com.wsd.ayon.exceptionhandlers.BadRequestException;
 import com.wsd.ayon.services.sales.SalesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class SalesController {
 
     private final SalesService salesService;
 
+    @Transactional(readOnly = true)
     @GetMapping("/by-date/{salesDate}")
     public Double getSalesAmountByDate(@PathVariable String salesDate) {
         LocalDate date = LocalDate.now();
@@ -28,5 +30,19 @@ public class SalesController {
             throw new BadRequestException("Invalid date format. Please use 'YYYY-MM-DD'.");
         }
         return salesService.totalSaleAmountByDate(date);
+    }
+
+    @Transactional(readOnly = true)
+    @GetMapping("/max-sales-day/{startDate}/{endDate}")
+    public LocalDate getSalesAmountByDate(@PathVariable String startDate, @PathVariable String endDate) {
+        LocalDate startDateConverted = LocalDate.now();
+        LocalDate endDateConverted = LocalDate.now();
+        try {
+            startDateConverted = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
+            endDateConverted = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
+        } catch (DateTimeParseException e) {
+            throw new BadRequestException("Invalid date format. Please use 'YYYY-MM-DD'.");
+        }
+        return salesService.findMaxSaleDay(startDateConverted, endDateConverted);
     }
 }

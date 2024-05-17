@@ -5,6 +5,7 @@ import com.wsd.ayon.repos.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ public class WishListServiceImpl implements WishListService {
     private final WishlistRepository wishlistRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<WishListDto> getWishList(Integer customer_id) {
         log.info("returning wish list of customer id : " + customer_id);
         return wishlistRepository.findAllByCustomerId(customer_id).stream()

@@ -13,7 +13,13 @@ import java.time.LocalDate;
 public class SalesServiceImpl implements SalesService {
     private final SalesRecordRepository salesRecordRepository;
 
+    @Override
     public Double totalSaleAmountByDate(LocalDate date) {
         return salesRecordRepository.findTotalSalesAmountBySalesDate(date);
+    }
+
+    @Override
+    public LocalDate findMaxSaleDay(LocalDate startDate, LocalDate endDate) {
+        return salesRecordRepository.findMaxSaleDay(startDate, endDate);
     }
 }
