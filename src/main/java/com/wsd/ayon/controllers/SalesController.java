@@ -45,8 +45,13 @@ public class SalesController {
         return salesService.findMaxSaleDay(startDateConverted, endDateConverted);
     }
 
-    @GetMapping("/top-five-products")
-    public List<ProductDTO> findTopFiveProducts() {
-        return salesService.findTopFiveProducts();
+    @GetMapping("/top-five-products-by-amount")
+    public List<ProductDTO> findTopFiveProductsByAmount() {
+        return salesService.findTopFiveProductsByAmount();
+    }
+
+    @GetMapping("/top-five-products-by-quantity")
+    public List<ProductDTO> findTopFiveProductsByQuantity() {
+        return salesService.findTopFiveProductsByQuantity();
     }
 }

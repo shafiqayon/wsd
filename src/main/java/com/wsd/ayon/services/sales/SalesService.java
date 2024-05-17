@@ -10,5 +10,7 @@ public interface SalesService {
 
     LocalDate findMaxSaleDay(LocalDate startDate, LocalDate endDate);
 
-    List<ProductDTO> findTopFiveProducts();
+    List<ProductDTO> findTopFiveProductsByAmount();
+
+    List<ProductDTO> findTopFiveProductsByQuantity();
 }

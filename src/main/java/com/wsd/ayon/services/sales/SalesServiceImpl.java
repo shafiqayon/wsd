@@ -1,6 +1,7 @@
 package com.wsd.ayon.services.sales;
 
 import com.wsd.ayon.dtos.ProductDTO;
+import com.wsd.ayon.entities.Product;
 import com.wsd.ayon.mapper.ProductMapper;
 import com.wsd.ayon.repos.SalesRecordRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,14 @@ public class SalesServiceImpl implements SalesService {
     }
 
     @Override
-    public List<ProductDTO> findTopFiveProducts() {
+    public List<ProductDTO> findTopFiveProductsByQuantity() {
         return salesRecordRepository.findTopFiveSellingProducts().stream().map(productMapper::toDto).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<ProductDTO> findTopFiveProductsByAmount() {
+        return salesRecordRepository.findTopProductsBySalesPrice().stream().map(objects -> productMapper.toDto((Product) objects[0])).collect(Collectors.toList());
 
     }
 }

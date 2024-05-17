@@ -19,5 +19,9 @@ public interface SalesRecordRepository extends JpaRepository<SalesRecord, Intege
     @Query("SELECT salesRecord.product FROM SalesRecord salesRecord JOIN salesRecord.product product GROUP BY salesRecord.product  ORDER BY SUM(salesRecord.quantity) DESC limit 5")
     List<Product> findTopFiveSellingProducts();
 
-
+    @Query("SELECT sr.product, SUM(sr.quantity * sr.product.price) AS totalSalesPrice " +
+            "FROM SalesRecord sr " +
+            "GROUP BY sr.product " +
+            "ORDER BY totalSalesPrice DESC")
+    List<Object[]> findTopProductsBySalesPrice();
 }

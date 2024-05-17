@@ -29,7 +29,8 @@ public class SalesRecordControllerTest {
 
     private final String SALES_RECORD_BY_DATE_API_URL = "/api/sales-record/by-date/";
     private final String MAX_SALES_RECORD_BY_DATE_API_URL = "/api/sales-record/max-sales-day/";
-    private final String TOP_SALES_LIST_API_URL = "/api/sales-record/top-five-products";
+    private final String TOP_SALES_BY_QUANTITY_LIST_API_URL = "/api/sales-record/top-five-products-by-quantity";
+    private final String TOP_SALES_BY_AMOUNT_LIST_API_URL = "/api/sales-record/top-five-products-by-amount";
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -85,7 +86,7 @@ public class SalesRecordControllerTest {
     }
 
     @Test
-    public void testGetTopSellingItems_success() throws Exception {
+    public void testGetTopSellingItemsByQuantity_shouldSuccess() throws Exception {
         ProductDTO product1 = ProductDTO.builder().id(1).productName("Laptop").productSku("SKU001").build();
         ProductDTO product2 = ProductDTO.builder().id(5).productName("Camera").productSku("SKU005").build();
         ProductDTO product3 = ProductDTO.builder().id(3).productName("Headphones").productSku("SKU003").build();
@@ -94,9 +95,9 @@ public class SalesRecordControllerTest {
 
         List<ProductDTO> topSellingItems = Arrays.asList(product1, product2, product3, product4, product5);
 
-        when(salesService.findTopFiveProducts()).thenReturn(topSellingItems);
+        when(salesService.findTopFiveProductsByQuantity()).thenReturn(topSellingItems);
 
-        ResultActions resultActions = mockMvc.perform(get(TOP_SALES_LIST_API_URL)
+        ResultActions resultActions = mockMvc.perform(get(TOP_SALES_BY_QUANTITY_LIST_API_URL)
                 .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(5))
@@ -113,7 +114,7 @@ public class SalesRecordControllerTest {
     }
 
     @Test
-    public void testGetTopSellingItems_shouldFail() throws Exception {
+    public void testGetTopSellingItemsByQuantity_shouldFail() throws Exception {
         ProductDTO product1 = ProductDTO.builder().id(1).productName("Laptop").productSku("SKU001").build();
         ProductDTO product2 = ProductDTO.builder().id(5).productName("Camera").productSku("SKU005").build();
         ProductDTO product3 = ProductDTO.builder().id(3).productName("Headphones").productSku("SKU003").build();
@@ -122,9 +123,9 @@ public class SalesRecordControllerTest {
 
         List<ProductDTO> topSellingItems = Arrays.asList(product1, product2, product3, product4, product5);
 
-        when(salesService.findTopFiveProducts()).thenReturn(topSellingItems);
+        when(salesService.findTopFiveProductsByQuantity()).thenReturn(topSellingItems);
 
-        ResultActions resultActions = mockMvc.perform(get(TOP_SALES_LIST_API_URL)
+        ResultActions resultActions = mockMvc.perform(get(TOP_SALES_BY_QUANTITY_LIST_API_URL)
                 .contentType(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(5))
@@ -139,4 +140,61 @@ public class SalesRecordControllerTest {
                 .andExpect(jsonPath("$[4].productName").value("Tablet"))
                 .andExpect(jsonPath("$[4].productSku").value("SKU004"));
     }
+
+    @Test
+    public void testGetTopSellingItemsByAmount_shouldSuccess() throws Exception {
+        ProductDTO product1 = ProductDTO.builder().id(5).productName("Camera").productSku("SKU005").build();
+        ProductDTO product2 = ProductDTO.builder().id(1).productName("Laptop").productSku("SKU001").build();
+        ProductDTO product3 = ProductDTO.builder().id(2).productName("Smartphone").productSku("SKU002").build();
+        ProductDTO product4 = ProductDTO.builder().id(4).productName("Tablet").productSku("SKU004").build();
+        ProductDTO product5 = ProductDTO.builder().id(3).productName("Headphones").productSku("SKU003").build();
+
+        List<ProductDTO> topSellingItems = Arrays.asList(product1, product2, product3, product4, product5);
+
+        when(salesService.findTopFiveProductsByAmount()).thenReturn(topSellingItems);
+
+        ResultActions resultActions = mockMvc.perform(get(TOP_SALES_BY_AMOUNT_LIST_API_URL)
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(5))
+                .andExpect(jsonPath("$[0].productName").value("Camera"))
+                .andExpect(jsonPath("$[0].productSku").value("SKU005"))
+                .andExpect(jsonPath("$[1].productName").value("Laptop"))
+                .andExpect(jsonPath("$[1].productSku").value("SKU001"))
+                .andExpect(jsonPath("$[2].productName").value("Smartphone"))
+                .andExpect(jsonPath("$[2].productSku").value("SKU002"))
+                .andExpect(jsonPath("$[3].productName").value("Tablet"))
+                .andExpect(jsonPath("$[3].productSku").value("SKU004"))
+                .andExpect(jsonPath("$[4].productName").value("Headphones"))
+                .andExpect(jsonPath("$[4].productSku").value("SKU003"));
+    }
+
+    @Test
+    public void testGetTopSellingItemsByAmount_shouldFail() throws Exception {
+        ProductDTO product1 = ProductDTO.builder().id(5).productName("Camera").productSku("SKU005").build();
+        ProductDTO product2 = ProductDTO.builder().id(1).productName("Laptop").productSku("SKU001").build();
+        ProductDTO product3 = ProductDTO.builder().id(2).productName("Smartphone").productSku("SKU002").build();
+        ProductDTO product4 = ProductDTO.builder().id(4).productName("Tablet").productSku("SKU004").build();
+        ProductDTO product5 = ProductDTO.builder().id(3).productName("Headphones").productSku("SKU003").build();
+
+        List<ProductDTO> topSellingItems = Arrays.asList(product1, product2, product3, product4, product5);
+
+        when(salesService.findTopFiveProductsByAmount()).thenReturn(topSellingItems);
+
+        ResultActions resultActions = mockMvc.perform(get(TOP_SALES_BY_AMOUNT_LIST_API_URL)
+                .contentType(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(5))
+                .andExpect(jsonPath("$[0].productName").value("Laptop"))
+                .andExpect(jsonPath("$[0].productSku").value("SKU005"))
+                .andExpect(jsonPath("$[1].productName").value("Camera"))
+                .andExpect(jsonPath("$[1].productSku").value("SKU001"))
+                .andExpect(jsonPath("$[2].productName").value("Smartphone"))
+                .andExpect(jsonPath("$[2].productSku").value("SKU002"))
+                .andExpect(jsonPath("$[3].productName").value("Tablet"))
+                .andExpect(jsonPath("$[3].productSku").value("SKU004"))
+                .andExpect(jsonPath("$[4].productName").value("Headphones"))
+                .andExpect(jsonPath("$[4].productSku").value("SKU003"));
+    }
+
 }
