@@ -28,7 +28,7 @@ public class WishListControllerTest {
     private WishListService wishListService;
 
     @Test
-    public void testGetTopSellingItemsByQuantity_shouldSuccess() throws Exception {
+    public void testWishList_shouldSuccess() throws Exception {
         Integer customer_id = 3;
         WishListDto wishListDto = WishListDto.builder().id(1).productName("Laptop").customerName("Bob Johnson").quantity(1.0).build();
         WishListDto wishListDto1 = WishListDto.builder().id(1).productName("Smartphone").customerName("Bob Johnson").quantity(2.0).build();
