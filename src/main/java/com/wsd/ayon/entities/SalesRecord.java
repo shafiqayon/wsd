@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,14 +23,16 @@ public class SalesRecord {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "customer_id", nullable = false, length = 100)
-    private String customerId;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     @Column(name = "sales_date", nullable = false)
     private Instant salesDate;
 
-    @Column(name = "product_sku", length = 100)
-    private String productSku;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Column(name = "quantity")
     private Double quantity;
