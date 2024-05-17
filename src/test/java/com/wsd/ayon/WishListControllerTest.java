@@ -31,10 +31,10 @@ public class WishListControllerTest {
     public void testWishList_shouldSuccess() throws Exception {
         Integer customer_id = 3;
         WishListDto wishListDto = WishListDto.builder().id(1).productName("Laptop").customerName("Bob Johnson").quantity(1.0).build();
-        WishListDto wishListDto1 = WishListDto.builder().id(1).productName("Smartphone").customerName("Bob Johnson").quantity(2.0).build();
-        WishListDto wishListDto2 = WishListDto.builder().id(1).productName("Headphones").customerName("Bob Johnson").quantity(2.0).build();
-        WishListDto wishListDto3 = WishListDto.builder().id(1).productName("Tablet").customerName("Bob Johnson").quantity(3.0).build();
-        WishListDto wishListDto4 = WishListDto.builder().id(1).productName("Camera").customerName("Bob Johnson").quantity(1.0).build();
+        WishListDto wishListDto1 = WishListDto.builder().id(7).productName("Smartphone").customerName("Bob Johnson").quantity(2.0).build();
+        WishListDto wishListDto2 = WishListDto.builder().id(11).productName("Headphones").customerName("Bob Johnson").quantity(2.0).build();
+        WishListDto wishListDto3 = WishListDto.builder().id(15).productName("Tablet").customerName("Bob Johnson").quantity(3.0).build();
+        WishListDto wishListDto4 = WishListDto.builder().id(19).productName("Camera").customerName("Bob Johnson").quantity(1.0).build();
 
         List<WishListDto> topSellingItems = Arrays.asList(wishListDto, wishListDto1, wishListDto2, wishListDto3, wishListDto4);
 
